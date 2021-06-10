@@ -14,19 +14,22 @@ module Posts
     attr_reader :input, :post
 
     def perform
-      # TODO:
-      # 1. create SocialContent with title and post from input
-      # 2. create as many related SocialPosts as many social_networks you have selected
-      # 3. care about data consistency (Please read about ActiveRecord::Base.transaction)
-      # 4. You must not create any SocialContent and SocialPosts:
-      #   - if schedule_time in the past
-      #   - if social_networks is empty array
-      #   - if post length more then 250 symbols
-      #   - if title length more then 50 symbols
+      if input[:schedule_time] > Date.today && input[:post].length <= 250 && input[:title].length <= 50  && input[:post].length != 0 && input[:title].length != 0 && input[:social_networks].length > 1
+        input[:social_networks].each do |item|
+          if item.length != 0
+            @p = SocialContent.create(title: input[:title], post: input[:post])
+            @p.social_posts.create(schedule_time: input[:schedule_time], social_network: item)
+          end
+        end
 
-      errors.add(:base, 'Perform functionality not implemented yet!')
-
-      @post = nil # Please replace 'nil' with real created post
+      else
+        errors.add(:schedule_time, 'date is in past') if input[:schedule_time] <= Date.today
+        errors.add(:title, 'length more then 50 symbols') if input[:title].length > 50
+        errors.add(:post, 'length more then 250 symbols') if input[:post].length > 250
+        errors.add(:title, 'empty') if input[:title].length == 0
+        errors.add(:post, 'empty') if input[:post].length == 0
+        errors.add(:social_networks, 'can not be empty') if input[:social_networks].length < 2
+      end
     end
   end
 end

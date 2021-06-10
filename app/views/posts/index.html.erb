@@ -8,10 +8,10 @@
       Social networks: <%= select_tag :social_networks, options_for_select(SocialPost.social_networks, params[:social_networks]), multiple: true %>
     </div>
     <div class="form-control">
-      Date from: <%= text_field_tag :datetime_from, params[:datetime_from], type: 'date', class: 'datepicker' %>
+      Date from: <%= text_field_tag :date_from, params[:date_from], type: 'date', class: 'datepicker' %>
     </div>
     <div class="form-control">
-      Date to: <%= text_field_tag :datetime_to, params[:datetime_to], type: 'date', class: 'datepicker' %>
+      Date to: <%= text_field_tag :date_to, params[:date_to], type: 'date', class: 'datepicker' %>
     </div>
     <div class="form-control">
       <%= submit_tag 'Search' %>

@@ -25,9 +25,9 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    # TODO: add ability to destroy any post
-    # 1. Destroy SocialContent
-    # 2. Destroy related SocialPosts
+    @content = SocialContent.find(params[:id]).destroy
+
+    redirect_to :posts
   end
 
   private
@@ -39,4 +39,6 @@ class PostsController < ApplicationController
   def search_params
     params.permit(:search_text, :date_from, :date_to, social_networks: [])
   end
+
+
 end
